@@ -640,7 +640,7 @@ async fn share_open(
     };
     let svg = code.render::<svg::Color>().min_dimensions(220, 220).build();
     let image = STANDARD.encode(svg.as_bytes());
-    page("Ваш VLESS-профиль", &format!("<section class=card><p>Скопируйте ссылку или отсканируйте QR в VLESS/REALITY-клиенте.</p><img class=qr alt='QR-код VLESS' src='data:image/svg+xml;base64,{}'><label>Профиль<textarea id=uri readonly rows=5>{}</textarea></label><button data-copy=uri>Скопировать профиль</button><p class=hint>Для маршрутизации всего устройства включите VPN/TUN и DNS через туннель в клиенте. Российские адреса выходят через VPS РФ, зарубежные — через VPS Нидерландов.</p></section>", image, esc(&uri))).into_response()
+    page("Ваш VLESS-профиль", &format!("<section class=card><p>Скопируйте ссылку или отсканируйте QR в VLESS/REALITY-клиенте.</p><img class=qr alt='QR-код VLESS' src='data:image/svg+xml;base64,{}'><label>Профиль<textarea id=uri readonly rows=5>{}</textarea></label><button data-copy=uri>Скопировать профиль</button><p class=hint>Для VPN всего устройства включите TUN/VPN и DNS через туннель. Если VLESS нужен только отдельным приложениям, выберите их в настройках мобильного VPN-клиента, когда он поддерживает такой режим. VLESS-ссылка не может задать список приложений. Российские адреса выходят через VPS РФ, зарубежные — через VPS Нидерландов.</p></section>", image, esc(&uri))).into_response()
 }
 
 #[cfg(test)]
@@ -898,6 +898,7 @@ mod tests {
         let opened_html = body(opened).await;
         assert!(opened_html.contains("QR-код VLESS"));
         assert!(opened_html.contains("example.org:443"));
+        assert!(opened_html.contains("VLESS-ссылка не может задать список приложений"));
         assert_eq!(
             request(
                 &app,
