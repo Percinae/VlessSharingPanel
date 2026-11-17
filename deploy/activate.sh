@@ -20,11 +20,11 @@ done
 [[ -f $incoming && ! -L $incoming ]] || { echo 'Uploaded binary is missing or is a symlink' >&2; exit 1; }
 [[ $(sha256sum "$incoming" | cut -d' ' -f1) == "$expected_sha" ]] || { echo 'Upload checksum mismatch' >&2; exit 1; }
 
-mkdir -p "$app_root/releases"
+install -d -m 0755 "$app_root/releases"
 if [[ -e $binary ]]; then
     [[ -f $binary && ! -L $binary ]] || { echo 'Existing release is invalid' >&2; exit 1; }
 else
-    mkdir -p "$release"
+    install -d -m 0755 "$release"
     install -m 0755 "$incoming" "$binary"
 fi
 [[ $(sha256sum "$binary" | cut -d' ' -f1) == "$expected_sha" ]] || { echo 'Release checksum mismatch' >&2; exit 1; }

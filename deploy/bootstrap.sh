@@ -26,8 +26,9 @@ if ! id vless-deploy > /dev/null 2>&1; then
 fi
 
 install -d -m 0700 -o vless-panel -g vless-panel /var/lib/vless-panel
-install -d -m 0750 -o vless-deploy -g vless-deploy /opt/vless-panel
-install -d -m 0750 -o vless-deploy -g vless-deploy /opt/vless-panel/incoming /opt/vless-panel/releases
+install -d -m 0755 -o vless-deploy -g vless-deploy /opt/vless-panel
+install -d -m 0750 -o vless-deploy -g vless-deploy /opt/vless-panel/incoming
+install -d -m 0755 -o vless-deploy -g vless-deploy /opt/vless-panel/releases
 install -d -m 0700 -o vless-deploy -g vless-deploy /home/vless-deploy/.ssh
 touch /home/vless-deploy/.ssh/authorized_keys
 chmod 0600 /home/vless-deploy/.ssh/authorized_keys
