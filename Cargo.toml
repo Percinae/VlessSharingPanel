@@ -1,0 +1,29 @@
+[package]
+name = "vless-sharing-panel"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+argon2 = "0.5"
+axum = { version = "0.8", features = ["form"] }
+base64 = "0.22"
+chacha20poly1305 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
+clap = { version = "4.5", features = ["derive", "env"] }
+hmac = "0.12"
+data-encoding = "2.6"
+qrcode = "0.14"
+rand = "0.8"
+rusqlite = { version = "0.32", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+sha1 = "0.10"
+sha2 = "0.10"
+tokio = { version = "1", features = ["full"] }
+url = "2"
+uuid = "1"
+
+[dev-dependencies]
+http-body-util = "0.1"
+tempfile = "3"
+tower = "0.5"

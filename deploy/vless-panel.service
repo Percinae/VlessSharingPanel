@@ -1,0 +1,28 @@
+[Unit]
+Description=VLESS sharing panel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vless-panel
+Group=vless-panel
+EnvironmentFile=/etc/vless-panel/panel.env
+WorkingDirectory=/var/lib/vless-panel
+ExecStart=/opt/vless-panel/current/vless-sharing-panel --data-dir /var/lib/vless-panel serve --bind 127.0.0.1:3000
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+ReadWritePaths=/var/lib/vless-panel
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target
