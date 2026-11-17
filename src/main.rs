@@ -742,6 +742,16 @@ mod tests {
         .await;
         assert_eq!(bad_login.status(), StatusCode::UNAUTHORIZED);
         assert!(bad_login.headers().get(header::SET_COOKIE).is_none());
+        let bad_second_factor = request(
+            &app,
+            Method::POST,
+            "/login",
+            Some(ORIGIN),
+            None,
+            &[("password", "correct-long-password"), ("code", "abcdef")],
+        )
+        .await;
+        assert_eq!(bad_second_factor.status(), StatusCode::UNAUTHORIZED);
         let missing_origin = request(
             &app,
             Method::POST,
@@ -849,6 +859,19 @@ mod tests {
         let recipient_html = body(recipient).await;
         assert!(!recipient_html.contains(URI));
         assert!(!recipient_html.contains("QR-код VLESS"));
+        assert_eq!(
+            request(
+                &app,
+                Method::POST,
+                path,
+                None,
+                None,
+                &[("password", password)]
+            )
+            .await
+            .status(),
+            StatusCode::FORBIDDEN
+        );
         assert_eq!(
             request(
                 &app,
